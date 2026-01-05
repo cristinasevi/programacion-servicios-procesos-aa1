@@ -28,7 +28,9 @@ public class MiningThread extends Thread {
                 String hash = HashCalculator.getHash(datos, i);
 
                 if (hash.startsWith(ceros)) {
-                    System.out.println("\nSOLUCION ENCONTRADA: " + i);
+                    cliente.notificarSolucionEncontrada();
+
+                    System.out.println("\nSOLUCION ENCONTRADA: " + i + " (Thread: " + Thread.currentThread().getName() + ")");
                     System.out.println("Hash: " + hash);
                     cliente.enviarSolucion(i);
                     return;
@@ -36,7 +38,7 @@ public class MiningThread extends Thread {
 
                 if ((i - min) % 100 == 0) {
                     int progreso = (int) (((i - min + 1) * 100.0) / (max - min + 1));
-                    System.out.println("Progreso del minado: " + progreso + "%");
+                    System.out.println("[" + Thread.currentThread().getName() + "] Progreso: " + progreso + "%");
                 }
             }
 

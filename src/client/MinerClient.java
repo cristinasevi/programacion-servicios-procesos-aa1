@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MinerClient {
     private String clienteId;
@@ -13,6 +15,8 @@ public class MinerClient {
     private PrintWriter out;
     private boolean pararMinado = false;
     private MiningThread hiloMinado;
+    private volatile boolean solucionEncontrada = false;
+    private List<MiningThread> threadsConcurrentes;
 
     public MinerClient(String clienteId) {
         this.clienteId = clienteId;
@@ -60,14 +64,24 @@ public class MinerClient {
 
                     out.println("ack");
 
-                    pararMinado = false;
-                    if (hiloMinado != null && hiloMinado.isAlive()) {
-                        pararMinado = true;
-                        hiloMinado.join(1000);
+                    // Parar threads anteriores si existen
+                    pararMinado = true;
+                    solucionEncontrada = false;
+
+                    if (threadsConcurrentes != null) {
+                        for (MiningThread t : threadsConcurrentes) {
+                            try {
+                                t.join(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
 
-                    hiloMinado = new MiningThread(datos, min, max, this, dificultad);
-                    hiloMinado.start();
+                    pararMinado = false;
+
+                    // Crear búsqueda concurrente con 5 threads
+                    empezarMinadoConcurrente(datos, min, max, dificultad);
                 }
 
                 // Fin del minado
@@ -87,8 +101,33 @@ public class MinerClient {
             }
         } catch (IOException e) {
             System.err.println("Error de conexion: " + e.getMessage());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        }
+    }
+
+    private void empezarMinadoConcurrente(String datos, int min, int max, int dificultad) {
+        int NUM_THREADS = 5;
+        int rangoTotal = max - min + 1;
+        int rangoPorThread = rangoTotal / NUM_THREADS;
+
+        threadsConcurrentes = new ArrayList<>();
+
+        System.out.println("Iniciando minado concurrente con " + NUM_THREADS + " threads");
+
+        for (int i = 0; i < NUM_THREADS; i++) {
+            int threadMin = min + (i * rangoPorThread);
+            int threadMax;
+
+            if (i == NUM_THREADS - 1) {
+                threadMax = max;  // El último thread toma todo lo que queda
+            } else {
+                threadMax = threadMin + rangoPorThread - 1;
+            }
+
+            MiningThread thread = new MiningThread(datos, threadMin, threadMax, this, dificultad);
+            threadsConcurrentes.add(thread);
+            thread.start();
+
+            System.out.println("  Thread " + (i + 1) + " minando [" + threadMin + "-" + threadMax + "]");
         }
     }
 
@@ -98,7 +137,11 @@ public class MinerClient {
     }
 
     public boolean debeParar() {
-        return pararMinado;
+        return pararMinado || solucionEncontrada;
+    }
+
+    public synchronized void notificarSolucionEncontrada() {
+        solucionEncontrada = true;
     }
 
     public void desconectar() {

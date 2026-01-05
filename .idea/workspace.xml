@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4151fa4d-5b34-4e3d-b141-2c4cedb19850" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/programacion-servicios-procesos-aa1.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/MinerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/MinerClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/MiningThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/MiningThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/MiningPoolServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/MiningPoolServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/HashCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/HashCalculator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +26,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.client.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
