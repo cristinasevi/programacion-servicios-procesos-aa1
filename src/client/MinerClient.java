@@ -49,10 +49,12 @@ public class MinerClient {
                     int min = Integer.parseInt(rango[0]);
                     int max = Integer.parseInt(rango[1]);
                     String datos = partes[2];
+                    int dificultad = Integer.parseInt(partes[3]);
 
                     System.out.println("\n========================================");
                     System.out.println("NUEVA PETICION DE MINADO");
                     System.out.println("Rango: [" + min + "-" + max + "]");
+                    System.out.println("Dificultad: " + dificultad + " ceros");
                     System.out.println("Datos: " + datos);
                     System.out.println("========================================\n");
 
@@ -64,7 +66,7 @@ public class MinerClient {
                         hiloMinado.join(1000);
                     }
 
-                    hiloMinado = new MiningThread(datos, min, max, this);
+                    hiloMinado = new MiningThread(datos, min, max, this, dificultad);
                     hiloMinado.start();
                 }
 

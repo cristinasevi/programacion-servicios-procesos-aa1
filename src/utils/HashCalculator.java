@@ -22,7 +22,7 @@ public class HashCalculator {
         return -1;
     }
 
-    public static boolean validate(String data, int solution) throws NoSuchAlgorithmException {
+    public static boolean validate(String data, int solution, int dificultad) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("md5");
 
         String msg = String.format("%03d%s", solution, data);
@@ -30,7 +30,8 @@ public class HashCalculator {
 
         String result = HexFormat.of().formatHex(digest.digest());
 
-        return result.startsWith("00");
+        String ceros = "0".repeat(dificultad);
+        return result.startsWith(ceros);
     }
 
     public static String getHash(String data, int solution) throws NoSuchAlgorithmException {

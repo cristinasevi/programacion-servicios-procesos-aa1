@@ -7,12 +7,14 @@ public class MiningThread extends Thread {
     private int min;
     private int max;
     private MinerClient cliente;
+    private int dificultad;
 
-    public MiningThread(String datos, int min, int max, MinerClient cliente) {
+    public MiningThread(String datos, int min, int max, MinerClient cliente, int dificultad) {
         this.datos = datos;
         this.min = min;
         this.max = max;
         this.cliente = cliente;
+        this.dificultad = dificultad;
     }
 
     @Override
@@ -20,10 +22,12 @@ public class MiningThread extends Thread {
         try {
             System.out.println("Hilo de minado iniciado para rango [" + min + "-" + max + "]");
 
+            String ceros = "0".repeat(dificultad);
+
             for (int i = min; i <= max && !cliente.debeParar(); i++) {
                 String hash = HashCalculator.getHash(datos, i);
 
-                if (hash.startsWith("00")) {
+                if (hash.startsWith(ceros)) {
                     System.out.println("\nSOLUCION ENCONTRADA: " + i);
                     System.out.println("Hash: " + hash);
                     cliente.enviarSolucion(i);

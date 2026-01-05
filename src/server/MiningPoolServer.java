@@ -13,6 +13,7 @@ public class MiningPoolServer {
     private int contadorBloques = 0;
     private boolean minandoEnProgreso = false;
     private int solucionActual = -1;
+    private int dificultad = 2;
 
     public MiningPoolServer() {
         this.clientes = new ArrayList<>();
@@ -100,7 +101,7 @@ public class MiningPoolServer {
             int min = i * rangoPorCliente;
             int max = (i == clientes.size() - 1) ? rangoTotal - 1 : (i + 1) * rangoPorCliente - 1;
 
-            cliente.enviarPeticionMinado(min, max, datosActuales);
+            cliente.enviarPeticionMinado(min, max, datosActuales, dificultad);
         }
     }
 
@@ -111,7 +112,7 @@ public class MiningPoolServer {
         }
 
         try {
-            boolean esValida = utils.HashCalculator.validate(datosActuales, solucion);
+            boolean esValida = utils.HashCalculator.validate(datosActuales, solucion, dificultad);
 
             if (esValida) {
                 solucionActual = solucion;
@@ -147,5 +148,9 @@ public class MiningPoolServer {
         } catch (Exception e) {
             System.err.println("Error validando solucion: " + e.getMessage());
         }
+    }
+
+    public int getDificultad() {
+        return dificultad;
     }
 }

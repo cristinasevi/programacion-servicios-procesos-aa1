@@ -62,9 +62,9 @@ public class ClientHandler extends Thread {
         }
     }
 
-    public void enviarPeticionMinado(int min, int max, String datos) {
-        out.println("new_request:" + min + "-" + max + ":" + datos);
-        System.out.println("Enviado a " + clienteId + ": [" + min + "-" + max + "]");
+    public void enviarPeticionMinado(int min, int max, String datos, int dificultad) {
+        out.println("new_request:" + min + "-" + max + ":" + datos + ":" + dificultad);
+        System.out.println("Enviado a " + clienteId + ": [" + min + "-" + max + "] dificultad:" + dificultad);
     }
 
     public void enviarFin(String ganador, int solucion) {
